@@ -1,0 +1,227 @@
+test> use barge
+switched to db barge
+barge> db.barge.createCollection("Database")
+TypeError: db.barge.createCollection is not a function
+barge> db.barge.createCollection("Database");
+TypeError: db.barge.createCollection is not a function
+barge> db.createCollection("database");
+{ ok: 1 }
+barge> db.barge.insert({name:"dj",village:"nerul",division:"d"});
+DeprecationWarning: Collection.insert() is deprecated. Use insertOne, insertMany, or bulkWrite.
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId('65d712531bfb6fc0bab689dc') }
+}
+barge> db.barge.insert({name:"datta",village:"latur",division:"b",subject:"dbms"});
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId('65d712a21bfb6fc0bab689dd') }
+}
+barge> db.barge.find();
+[
+  {
+    _id: ObjectId('65d712531bfb6fc0bab689dc'),
+    name: 'dj',
+    village: 'nerul',
+    division: 'd'
+  },
+  {
+    _id: ObjectId('65d712a21bfb6fc0bab689dd'),
+    name: 'datta',
+    village: 'latur',
+    division: 'b',
+    subject: 'dbms'
+  }
+]
+barge> db.barge.find({name:"datta" });
+[
+  {
+    _id: ObjectId('65d712a21bfb6fc0bab689dd'),
+    name: 'datta',
+    village: 'latur',
+    division: 'b',
+    subject: 'dbms'
+  }
+]
+barge> db.barge.find({name:"datta"},{name:1,village:1 } );
+[
+  {
+    _id: ObjectId('65d712a21bfb6fc0bab689dd'),
+    name: 'datta',
+    village: 'latur'
+  }
+]
+barge> db.barge.update({name:"datta"},{$set:{village:"pune"}});
+DeprecationWarning: Collection.update() is deprecated. Use updateOne, updateMany, or bulkWrite.
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+barge> db.barge.find();
+[
+  {
+    _id: ObjectId('65d712531bfb6fc0bab689dc'),
+    name: 'dj',
+    village: 'nerul',
+    division: 'd'
+  },
+  {
+    _id: ObjectId('65d712a21bfb6fc0bab689dd'),
+    name: 'datta',
+    village: 'pune',
+    division: 'b',
+    subject: 'dbms'
+  }
+]
+barge> db.barge.update({name:"datta"},{$set:{village:"tathawade"}});
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+barge> db.barge.find();
+[
+  {
+    _id: ObjectId('65d712531bfb6fc0bab689dc'),
+    name: 'dj',
+    village: 'nerul',
+    division: 'd'
+  },
+  {
+    _id: ObjectId('65d712a21bfb6fc0bab689dd'),
+    name: 'datta',
+    village: 'tathawade',
+    division: 'b',
+    subject: 'dbms'
+  }
+]
+barge> db.barge.update({name:"datta"},{$set:{salary::80000}});
+Uncaught:
+SyntaxError: Unexpected token (1:45)
+
+> 1 | db.barge.update({name:"datta"},{$set:{salary::80000}});
+    |                                              ^
+  2 |
+
+barge> db.barge.update({name:"datta"},{$set:{salary:80000}});
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+barge> db.barge.update({name:"dj"},{$set:{salary:85000}});
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+barge> db.barge.find();
+[
+  {
+    _id: ObjectId('65d712531bfb6fc0bab689dc'),
+    name: 'dj',
+    village: 'nerul',
+    division: 'd',
+    salary: 85000
+  },
+  {
+    _id: ObjectId('65d712a21bfb6fc0bab689dd'),
+    name: 'datta',
+    village: 'tathawade',
+    division: 'b',
+    subject: 'dbms',
+    salary: 80000
+  }
+]
+barge> db.barge.find().sort({salary:1});
+[
+  {
+    _id: ObjectId('65d712a21bfb6fc0bab689dd'),
+    name: 'datta',
+    village: 'tathawade',
+    division: 'b',
+    subject: 'dbms',
+    salary: 80000
+  },
+  {
+    _id: ObjectId('65d712531bfb6fc0bab689dc'),
+    name: 'dj',
+    village: 'nerul',
+    division: 'd',
+    salary: 85000
+  }
+]
+barge> db.barge.find().sort({salary:-1});
+[
+  {
+    _id: ObjectId('65d712531bfb6fc0bab689dc'),
+    name: 'dj',
+    village: 'nerul',
+    division: 'd',
+    salary: 85000
+  },
+  {
+    _id: ObjectId('65d712a21bfb6fc0bab689dd'),
+    name: 'datta',
+    village: 'tathawade',
+    division: 'b',
+    subject: 'dbms',
+    salary: 80000
+  }
+]
+barge> db.barge.createIndex({name:1});
+name_1
+barge> db.barge.find();
+[
+  {
+    _id: ObjectId('65d712531bfb6fc0bab689dc'),
+    name: 'dj',
+    village: 'nerul',
+    division: 'd',
+    salary: 85000
+  },
+  {
+    _id: ObjectId('65d712a21bfb6fc0bab689dd'),
+    name: 'datta',
+    village: 'tathawade',
+    division: 'b',
+    subject: 'dbms',
+    salary: 80000
+  }
+]
+barge> db.barge.createIndex({"name":1});
+name_1
+barge> db.barge.createIndex({"names":1});
+names_1
+barge> db.barge.find();
+[
+  {
+    _id: ObjectId('65d712531bfb6fc0bab689dc'),
+    name: 'dj',
+    village: 'nerul',
+    division: 'd',
+    salary: 85000
+  },
+  {
+    _id: ObjectId('65d712a21bfb6fc0bab689dd'),
+    name: 'datta',
+    village: 'tathawade',
+    division: 'b',
+    subject: 'dbms',
+    salary: 80000
+  }
+]
+barge> 
+(To exit, press Ctrl+C again or Ctrl+D or type .exit)
+barge> 
+linux@linux-ThinkCentre-M720s:~/Downloads$ 
+
